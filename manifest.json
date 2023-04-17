@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Watermark Pages",
+  "description": "Inject a watermark into pages while browsing.",
+  "version": "1.0",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "favicon-32x32.png"
+  },
+  "icons": {
+    "32": "favicon-32x32.png",
+    "512": "android-chrome-512x512.png"
+  },
+  "host_permissions": ["https://cloud.uipath.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://cloud.uipath.com/*"],
+      "run_at": "document_idle",
+      "js": ["watermark.js"],
+      "css": ["watermark.css"]
+    }
+  ]
+}

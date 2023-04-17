@@ -1,0 +1,12 @@
+#watermark-production {
+  opacity: 0.3;
+  font-size: 12vw;
+  rotate: -22.5deg;
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: red;
+  z-index: 9000;
+  text-shadow: 2px 4px 3px rgb(0 0 0);
+}
