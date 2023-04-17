@@ -11,10 +11,14 @@
     "32": "favicon-32x32.png",
     "512": "android-chrome-512x512.png"
   },
-  "host_permissions": ["https://cloud.uipath.com/*"],
+  "host_permissions": ["https://*/*"],
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
-      "matches": ["https://cloud.uipath.com/*"],
+      "matches": ["https://*/*"],
       "run_at": "document_idle",
       "js": ["watermark.js"],
       "css": ["watermark.css"]
