@@ -1,19 +1,32 @@
-function deleteRow(row) {
-  const rowNode = row.parentNode.parentNode;
-  const tableNode = rowNode.parentNode;
-  tableNode.deleteRow(rowNode.rowIndex);
-}
-
-const DATA_TEMPLATE = {
-  path: undefined,
-  text: undefined,
-  color: undefined,
-};
+const COLUMNS = [
+  { key: "path", name: "URL Pattern" },
+  { key: "text", name: "Watermark" },
+  { key: "color", name: "Color" },
+];
 
 async function loadTableData() {
   let data = (await chrome.storage.sync.get(["data"])).data || [];
   console.log("Got data", data);
   return data;
+}
+
+function appendDeleteButton(table, row) {
+  // Create delete button
+  const deleteBtnCell = row.insertCell();
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+  deleteBtn.addEventListener("click", () => {
+    table.deleteRow(row.rowIndex);
+  });
+  deleteBtnCell.appendChild(deleteBtn);
+}
+
+function appendInputCell(row, value) {
+  const cell = row.insertCell();
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = value;
+  cell.appendChild(input);
 }
 
 // Function to create a table from the JSON data
@@ -24,23 +37,19 @@ function createTableFromData(data) {
 
   // Create table header
   const headerRow = table.insertRow();
-  for (const key in data[0]) {
+  for (const column of COLUMNS) {
     const th = document.createElement("th");
-    th.textContent = key;
+    th.textContent = column.name;
     headerRow.appendChild(th);
   }
 
   // Create table rows
   for (const obj of data) {
     const row = table.insertRow();
-    for (const key in obj) {
-      const cell = row.insertCell();
-      const input = document.createElement("input");
-      input.type = "text";
-      input.value = obj[key];
-      input["data-key"] = key;
-      cell.appendChild(input);
+    for (const column of COLUMNS) {
+      appendInputCell(row, obj[column.key]);
     }
+    appendDeleteButton(table, row);
   }
   document.getElementById("ruleDiv").appendChild(table);
 }
@@ -52,14 +61,10 @@ function createAddRowButton() {
   addRowBtn.addEventListener("click", () => {
     const table = document.getElementById("ruleTable");
     const row = table.insertRow();
-    for (const key in DATA_TEMPLATE) {
-      const cell = row.insertCell();
-      const input = document.createElement("input");
-      input.type = "text";
-      input.value = "";
-      input["data-key"] = key;
-      cell.appendChild(input);
+    for (const column of COLUMNS) {
+      appendInputCell(row, "");
     }
+    appendDeleteButton(table, row);
   });
 
   document.body.appendChild(addRowBtn);
@@ -72,14 +77,16 @@ function createSaveButton() {
     const table = document.getElementById("ruleTable");
     const newData = [];
     const rows = table.rows;
-    for (let i = 1; i < rows.length; i++) {
+    for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
       const obj = {};
-      for (let j = 0; j < rows[i].cells.length; j++) {
-        const input = rows[i].cells[j].querySelector("input");
-        obj[input["data-key"]] = input.value;
-      }
+
+      COLUMNS.forEach(function (column, columnIndex) {
+        const input = rows[rowIndex].cells[columnIndex].querySelector("input");
+        obj[column.key] = input.value;
+      });
       newData.push(obj);
     }
+    console.log("Storing data", newData);
     chrome.storage.sync.set({ data: newData }).catch(console.error);
   });
 
