@@ -4,22 +4,15 @@ function deleteRow(row) {
   tableNode.deleteRow(rowNode.rowIndex);
 }
 
+const DATA_TEMPLATE = {
+  path: undefined,
+  text: undefined,
+  color: undefined,
+};
+
 async function loadTableData() {
-  let data = await chrome.storage.sync.get(["data"]);
+  let data = (await chrome.storage.sync.get(["data"])).data || [];
   console.log("Got data", data);
-  //setup our table array
-  data = [
-    {
-      path: "https://cloud.uipath.com/.*",
-      text: "PRODUCTION",
-      color: "red",
-    },
-    {
-      path: "https://developer.chrome.com/.*",
-      text: "TEST",
-      color: "orange",
-    },
-  ];
   return data;
 }
 
@@ -52,6 +45,26 @@ function createTableFromData(data) {
   document.getElementById("ruleDiv").appendChild(table);
 }
 
+function createAddRowButton() {
+  // Create button to add new row
+  const addRowBtn = document.createElement("button");
+  addRowBtn.textContent = "Add Row";
+  addRowBtn.addEventListener("click", () => {
+    const table = document.getElementById("ruleTable");
+    const row = table.insertRow();
+    for (const key in DATA_TEMPLATE) {
+      const cell = row.insertCell();
+      const input = document.createElement("input");
+      input.type = "text";
+      input.value = "";
+      input["data-key"] = key;
+      cell.appendChild(input);
+    }
+  });
+
+  document.body.appendChild(addRowBtn);
+}
+
 function createSaveButton() {
   const saveBtn = document.createElement("button");
   saveBtn.textContent = "Save";
@@ -73,5 +86,6 @@ function createSaveButton() {
   document.body.appendChild(saveBtn);
 }
 
+createAddRowButton();
 createSaveButton();
 loadTableData().then(createTableFromData).catch(console.eror);
