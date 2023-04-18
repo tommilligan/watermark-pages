@@ -7,30 +7,12 @@ function createWatermark(text, color) {
 }
 
 async function getData() {
-  let data = await chrome.storage.local.get(["data"]);
-  console.log("Got data", data);
-  data = {
-    rules: [
-      {
-        path: "https://cloud.uipath.com/.*",
-        data: {
-          text: "PRODUCTION",
-          color: "red",
-        },
-      },
-      {
-        path: "https://developer.chrome.com/.*",
-        data: {
-          text: "TEST",
-          color: "orange",
-        },
-      },
-    ],
-  };
+  let data = (await chrome.storage.sync.get(["data"])).data || [];
+  console.log("Loaded stored data", data);
 
   return {
-    rules: data.rules.map(({ path, data }) => {
-      return { path: new RegExp(path), data };
+    rules: data.map(({ path, text, color }) => {
+      return { path: new RegExp(path), data: { text, color } };
     }),
   };
 }
@@ -39,6 +21,7 @@ async function getPathData(href) {
   const data = await getData();
   var result = data.rules.find((rule) => href.match(rule.path));
   if (result) {
+    console.log("Relevant data", result);
     return result.data;
   }
 }
