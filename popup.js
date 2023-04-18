@@ -39,7 +39,10 @@ function createTableFromData(data) {
   const headerRow = table.insertRow();
   for (const column of COLUMNS) {
     const th = document.createElement("th");
-    th.textContent = column.name;
+    const div = document.createElement("div");
+    div.textContent = column.name;
+    div.style = "width: 185px";
+    th.appendChild(div);
     headerRow.appendChild(th);
   }
 
