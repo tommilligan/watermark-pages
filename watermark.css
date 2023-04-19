@@ -9,4 +9,5 @@
   color: red;
   z-index: 9000;
   text-shadow: 2px 4px 3px rgb(0 0 0);
+  pointer-events: none;
 }

@@ -8,7 +8,6 @@ function createWatermark(text, color) {
 
 async function getData() {
   let data = (await chrome.storage.sync.get(["data"])).data || [];
-  console.log("Loaded stored data", data);
 
   return {
     rules: data.map(({ path, text, color }) => {
@@ -21,7 +20,6 @@ async function getPathData(href) {
   const data = await getData();
   var result = data.rules.find((rule) => href.match(rule.path));
   if (result) {
-    console.log("Relevant data", result);
     return result.data;
   }
 }

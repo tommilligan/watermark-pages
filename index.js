@@ -6,7 +6,6 @@ const COLUMNS = [
 
 async function loadTableData() {
   let data = (await chrome.storage.sync.get(["data"])).data || [];
-  console.log("Got data", data);
   return data;
 }
 
@@ -89,7 +88,6 @@ function createSaveButton() {
       });
       newData.push(obj);
     }
-    console.log("Storing data", newData);
     chrome.storage.sync.set({ data: newData }).catch(console.error);
   });
 
