@@ -10,4 +10,9 @@
   z-index: 9000;
   text-shadow: 2px 4px 3px rgb(0 0 0);
   pointer-events: none;
+  width: unset;
+  height: unset;
+  margin: unset;
+  padding: unset;
+  border: unset;
 }
