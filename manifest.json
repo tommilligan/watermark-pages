@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Watermark Pages",
   "description": "Inject a watermark into pages while browsing.",
-  "version": "1.0",
+  "version": "1.1",
   "action": {
     "default_popup": "index.html",
     "default_icon": "favicon-32x32.png"
