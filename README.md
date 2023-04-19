@@ -2,6 +2,8 @@
 
 Watermark pages with a noticeable message.
 
+![Example Watermark](examples/example-watermark.png)
+
 ## Installation
 
 This extension is not currently published on the Chrome Web Store. To use:
@@ -23,6 +25,4 @@ Once installed:
 
 The pattern you enter will be matched against the page URL as a regex. If it matches, a watermark will be applied.
 
-Below is what you get for `pattern: https://example.org/`, `watermark: EXAMPLE`, `color: cyan`
-
-![Example Watermark](examples/example-watermark.png)
+The screenshot above is what you get for `pattern: https://example.org/`, `watermark: EXAMPLE`, `color: cyan`
