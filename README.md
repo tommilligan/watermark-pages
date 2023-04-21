@@ -2,7 +2,7 @@
 
 Watermark pages with a noticeable message.
 
-![Example Watermark](examples/example-watermark.png)
+![Example Watermark](examples/example-watermark.jpg)
 
 ## Installation
 
