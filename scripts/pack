@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cd "$(dirname "$0")"/..
+
+# Pack chrome
+chromium-browser --pack-extension='./src' --pack-extension-key='./watermark-pages.pem'
+mv src.crx dist/watermark-pages.crx
+
+# Pack firefox
+web-ext build --source-dir src --overwrite-dest --artifacts-dir .
+mv watermark_pages-*.zip dist
