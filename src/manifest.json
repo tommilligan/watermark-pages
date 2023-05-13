@@ -2,7 +2,12 @@
   "manifest_version": 3,
   "name": "Watermark Pages",
   "description": "Inject a watermark into pages while browsing.",
-  "version": "1.1",
+  "version": "1.1.1",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{25c3b2ba-157f-4669-ab94-6c4edd6b2814}"
+    }
+  },
   "action": {
     "default_popup": "index.html",
     "default_icon": "favicon-32x32.png"
@@ -11,11 +16,11 @@
     "32": "favicon-32x32.png",
     "512": "android-chrome-512x512.png"
   },
-  "host_permissions": ["https://*/*"],
+  "host_permissions": ["http://*/*", "https://*/*"],
   "permissions": ["storage"],
   "content_scripts": [
     {
-      "matches": ["https://*/*"],
+      "matches": ["http://*/*", "https://*/*"],
       "run_at": "document_idle",
       "js": ["watermark.js"],
       "css": ["watermark.css"]

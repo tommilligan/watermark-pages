@@ -1,7 +1,7 @@
 function createWatermark(text, color) {
   var div = document.createElement("div");
   document.body.appendChild(div);
-  div.id = "watermark";
+  div.id = "watermark-pages-extension-watermark";
   div.innerText = text;
   div.style = "color:" + color;
 }
